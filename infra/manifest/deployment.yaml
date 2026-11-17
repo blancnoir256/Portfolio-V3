@@ -1,0 +1,72 @@
+# https://kubernetes.io/docs/concepts/workloads/controllers/deployment/
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: frontend
+  namespace: bn256-portfolio
+  labels:
+    app: bn256-portfolio
+    component: frontend
+spec:
+  selector:
+    matchLabels:
+      app: bn256-portfolio
+      component: frontend
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: bn256-portfolio
+        component: frontend
+    spec:
+      containers:
+        - name: frontend
+          image: bn256-portfolio-frontend:v3.0.0
+          imagePullPolicy: Never
+          resources:
+            requests:
+              cpu: 50m
+              memory: 50Mi
+            limits:
+              cpu: 50m
+              memory: 50Mi
+          ports:
+            - containerPort: 3000
+              name: frontend
+
+---
+# https://kubernetes.io/docs/concepts/workloads/controllers/deployment/
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: backend
+  namespace: bn256-portfolio
+  labels:
+    app: bn256-portfolio
+    component: backend
+spec:
+  selector:
+    matchLabels:
+      app: bn256-portfolio
+      component: backend
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: bn256-portfolio
+        component: backend
+    spec:
+      containers:
+        - name: backend
+          image: bn256-portfolio-backend:v3.0.0
+          imagePullPolicy: Never
+          resources:
+            requests:
+              cpu: 50m
+              memory: 50Mi
+            limits:
+              cpu: 50m
+              memory: 50Mi
+          ports:
+            - containerPort: 8080
+              name: backend

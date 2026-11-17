@@ -1,0 +1,14 @@
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: bn256-dev
+  namespace: bn256-portfolio
+spec:
+  secretName: bn256-portfolio-tls-secret
+  issuerRef:
+    name: bn256-cm
+    kind: ClusterIssuer
+    group: cert-manager.io
+  dnsNames:
+    - bn256.dev
+    - www.bn256.dev

@@ -1,0 +1,29 @@
+# yaml-language-server: $schema=.crd/traefik.io-ingressroute-v1alpha1.json
+# https://kubernetes.io/docs/concepts/services-networking/ingress/
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: bn256-portfolio-v3
+  namespace: bn256-portfolio
+  annotations:
+    cert-manager.io/cluster-issuer: bn256-cm
+  labels:
+    app: bn256-portfolio
+spec:
+  entryPoints:
+    - websecure
+  tls:
+    secretName: bn256-portfolio-tls-secret
+  routes:
+    - kind: Rule
+      match: (Host(`bn256.dev`) || Host(`www.bn256.dev`)) && PathPrefix(`/api/`)
+      services:
+        - name: backend
+          port: 80
+          scheme: http
+    - kind: Rule
+      match: (Host(`bn256.dev`) || Host(`www.bn256.dev`)) && !PathPrefix(`/api/`)
+      services:
+        - name: frontend
+          port: 80
+          scheme: http
